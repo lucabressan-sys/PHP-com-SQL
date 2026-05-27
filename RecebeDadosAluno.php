@@ -10,9 +10,15 @@
             padding: 8px;
             text-align: left;
         }
+        th {
+            color:darkblue;
+        }
         tbody > tr:nth-child(2n) {
             background-color:lightslategray;
             color:white;
+        }
+        table {
+            min-width: 90vw;
         }
         a:visited {
             color: black;
