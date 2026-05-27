@@ -9,58 +9,66 @@
             border: 1px solid #000;
             padding: 8px;
             text-align: left;
-            min-width: 23vw;
-            max-width: 23vw;
         }
         tbody > tr:nth-child(2n) {
             background-color:lightslategray;
             color:white;
         }
+        a:visited {
+            color: black;
+        }
+        a {
+            color: black;
+        }
         </style>
     </head>
     <body>
         <form action="" method="post">
-            <label for="filter">Valor maior que: </label>
-            
-            <input type="number" name="low-filter"> <br/>
-
-            <label for="filter">Valor menor que: </label>
-            <input type="number" name="high-filter"> <br/>
+            <label for="filter">Sexo: </label>
+            <input type="text" name="gender"> <br/>
             <input type="submit" name="submit" id="submit">
         </form>
         <table cellspacing="0">
             <thead>
                 <th>ID</th>
-                <th>TITULO</th>
-                <th>DESCRICAO</th>
-                <th>VALOR</th>
-                
+                <th>NOME</th>
+                <th>DATA DE NASCIMENTO</th>
+                <th>GÊNERO</th>
+                <th>TURMA</th>
+                <th>EDITAR</th>
+                <th>EXCLUIR</th>
             </thead>
             <tbody> 
-    
+        <br>
             <?php 
                 include("util.php");
                 $conn = connect("bd_Luca_Cursos");
-
-                $valueFilterLowest = $_POST['low-filter']; //Recebe os dados do POST
-                $valueFilterHighest = $_POST['high-filter'];
-                echo "Maior que: " . $valueFilterLowest. "<br>Menor que: " . $valueFilterHighest;
-
-                $varSQL = "SELECT * FROM cursos WHERE valor >= :valormin AND valor <= :valormax"; //Filtra o SQL
-                $select =  $conn->prepare($varSQL);
-                $select -> bindParam(":valormin",$valueFilterLowest);
-                $select -> bindParam(":valormax",$valueFilterHighest);
-                $select -> execute();
+                $gender = $_POST['gender']; //Recebe os dados do POST
+                if(empty($gender)) {
+                    $varSQL = "SELECT * FROM aluno"; //Filtra o SQL
+                    $select =  $conn->prepare($varSQL);
+                    $select -> execute();
+                } else {
+                    $varSQL = "SELECT * FROM aluno WHERE genero = :genero"; //Filtra o SQL
+                    $select =  $conn->prepare($varSQL);
+                    $select -> bindParam(":genero",$gender);
+                    $select -> execute();
+                }
+                
+               
 
                 while ($linha = $select -> fetch()) {
                     $id = $linha['id'];
-                    $titulo = $linha['titulo'];
-                    $desc = $linha['descricao'];
-                    $valor = $linha['valor'];
-                    echo "<tr><td>" . $id . "</td><td>" . $titulo . "</td><td>" . $desc . "</td><td>" . $valor . "</td>";
+                    $nome = $linha['nome'];
+                    $dataNascimento = $linha['data_nasc'];
+                    $sexo = $linha['genero'];
+                    $turma = $linha['turma'];
+                    echo "<tr><td>" . $id . "</td><td>" . $nome . "</td><td>" . $dataNascimento . "</td><td>" . $sexo . "</td><td>" . $turma . "</td><td>" .
+                    "<a href='alterarAlunos.php?id=". $id ."'>ALTERAR</a></td>" . "<td><a href='excluirAlunos.php?id=". $id ."'>EXCLUIR</a></td></tr>";
                 }
                 ?>
             </tbody>
         </table>
+            <a href="adicionarAlunos.php">ADICIONAR REGISTRO</a>
     </body>
 </html>
