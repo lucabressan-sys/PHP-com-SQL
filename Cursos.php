@@ -24,17 +24,17 @@
     </head>
     <body>
         <form action="" method="post">
-            <label for="filter">Sexo: </label>
-            <input type="text" name="gender"> <br/>
+            <label for="filter">Valor menor que: </label>
+            <input type="text" name="value"> <br/>
             <input type="submit" name="submit" id="submit">
         </form>
         <table cellspacing="0">
             <thead>
                 <th>ID</th>
-                <th>NOME</th>
-                <th>DATA DE NASCIMENTO</th>
-                <th>GÊNERO</th>
-                <th>TURMA</th>
+                <th>TÍTULO</th>
+                <th>DESCRIÇÃO</th>
+                <th>VALOR</th>
+                <th>IMAGEM</th>
                 <th>EDITAR</th>
                 <th>EXCLUIR</th>
             </thead>
@@ -43,15 +43,15 @@
             <?php 
                 include("util.php");
                 $conn = connect("bd_Luca_Cursos");
-                $gender = $_POST['gender']; //Recebe os dados do POST
+                $value = $_POST['value']; //Recebe os dados do POST
                 if(empty($gender)) {
-                    $varSQL = "SELECT * FROM aluno"; //Filtra o SQL
+                    $varSQL = "SELECT * FROM curso"; //Filtra o SQL
                     $select =  $conn->prepare($varSQL);
                     $select -> execute();
                 } else {
-                    $varSQL = "SELECT * FROM aluno WHERE genero = :genero"; //Filtra o SQL
+                    $varSQL = "SELECT * FROM curso WHERE valor <= :valor"; //Filtra o SQL
                     $select =  $conn->prepare($varSQL);
-                    $select -> bindParam(":genero",$gender);
+                    $select -> bindParam(":valor",$value);
                     $select -> execute();
                 }
                 
@@ -59,16 +59,18 @@
 
                 while ($linha = $select -> fetch()) {
                     $id = $linha['id'];
-                    $nome = $linha['nome'];
-                    $dataNascimento = $linha['data_nasc'];
-                    $sexo = $linha['genero'];
-                    $turma = $linha['turma'];
-                    echo "<tr><td>" . $id . "</td><td>" . $nome . "</td><td>" . $dataNascimento . "</td><td>" . $sexo . "</td><td>" . $turma . "</td><td>" .
-                    "<a href='alterarAlunos.php?id=". $id ."'>ALTERAR</a></td>" . "<td><a href='excluirAlunos.php?id=". $id ."'>EXCLUIR</a></td></tr>";
+                    $titulo = $linha['titulo'];
+                    $desc = $linha['descricao'];
+                    $valor = $linha['valor'];
+                    echo "<tr><td>" . $id . "</td><td>" . $titulo . "</td><td>" . $desc . "</td><td>" . $valor . "</td><td>" . "<img src='imagens/$id.png' height:40>" . "</td><td>" .
+                    "<a href='alterarAlunos.php?id=". $id ."'><img src='icons/edit.png' alt='EDITAR'></a></td>" . "<td><a href='excluirAlunos.php?id=". $id ."'><img src='icons/delete-forever.png' alt='EXCLUIR'></a></td></tr>";
                 }
                 ?>
             </tbody>
+            <tfoot>
+                <td colspan="7"><a href="adicionarAlunos.php" style="font-size: 20px;"><img src="icons/add.png" alt="ADICIONAR"></td>
+            </tfoot>
         </table>
-            <a href="adicionarAlunos.php">ADICIONAR REGISTRO</a>
+            
     </body>
 </html>
