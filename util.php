@@ -31,8 +31,7 @@
             // obtem o id do curso inserido
             $novoId   = $paramConn->lastInsertId();
             // obtem a extensão do arquivo
-            $ext = pathinfo($paramFiles[$paramCampo]['name'],
-                   PATHINFO_EXTENSION);
+            $ext = pathinfo($paramFiles[$paramCampo]['name'], PATHINFO_EXTENSION);
             // cria o novo nome do arquivo
             // exemplo: /imagens/10.png
             $arquivoNovo = "imagens/$novoId.$ext";

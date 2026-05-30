@@ -1,5 +1,6 @@
 <html>
     <head>
+        <meta charset="UTF-8">
         <style>
             * {
                 font-size: 40px;
@@ -26,6 +27,10 @@
         a {
             color: black;
         }
+        img {
+            height: 40px;
+            width: 40px;
+        }
         </style>
     </head>
     <body>
@@ -48,7 +53,7 @@
         <br>
             <?php 
                 include("util.php");
-                $conn = connect("bd_Luca_Cursos");
+                $conn = connect("db_php");
                 $value = $_POST['value']; //Recebe os dados do POST
                 if(empty($gender)) {
                     $varSQL = "SELECT * FROM curso"; //Filtra o SQL
@@ -68,13 +73,13 @@
                     $titulo = $linha['titulo'];
                     $desc = $linha['descricao'];
                     $valor = $linha['valor'];
-                    echo "<tr><td>" . $id . "</td><td>" . $titulo . "</td><td>" . $desc . "</td><td>" . $valor . "</td><td>" . "<img src='imagens/$id.png' height:40>" . "</td><td>" .
-                    "<a href='alterarAlunos.php?id=". $id ."'><img src='icons/edit.png' alt='EDITAR'></a></td>" . "<td><a href='excluirAlunos.php?id=". $id ."'><img src='icons/delete-forever.png' alt='EXCLUIR'></a></td></tr>";
+                    echo "<tr><td>" . $id . "</td><td>" . $titulo . "</td><td>" . $desc . "</td><td>" . $valor . "</td><td>" . "<img src='imagens/$id.png' height:40px>" . "</td><td>" .
+                    "<a href='alterarCursos.php?id=". $id ."'><img src='icons/edit.png' alt='EDITAR'></a></td>" . "<td><a href='excluirCursos.php?id=". $id ."'><img src='icons/delete-forever.png' alt='EXCLUIR'></a></td></tr>";
                 }
                 ?>
             </tbody>
             <tfoot>
-                <td colspan="7"><a href="adicionarAlunos.php" style="font-size: 20px;"><img src="icons/add.png" alt="ADICIONAR"></td>
+                <td colspan="7"><a href="adicionarCursos.php" style="font-size: 20px;"><img src="icons/add.png" alt="ADICIONAR"></td>
             </tfoot>
         </table>
             
